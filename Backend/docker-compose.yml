@@ -1,0 +1,22 @@
+services:
+
+  backend:
+    build: .
+    container_name: lankatransit-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:7
+    container_name: lankatransit-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
