@@ -1,3 +1,4 @@
+
 name: LankaTransit CI
 
 on:
@@ -11,7 +12,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +33,7 @@ jobs:
       - name: Run tests
         working-directory: Backend
         run: npm test
+
+      - name: Build Docker image
+        working-directory: Backend
+        run: docker build -t lankatransit-backend:latest .
