@@ -11,8 +11,12 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  test-and-build:
+  test-and-publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,5 +39,26 @@ jobs:
         run: npm test
 
       - name: Build Docker image
-        working-directory: Backend
-        run: docker build -t lankatransit-backend:latest .
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Backend
+          push: false
+          tags: ghcr.io/yasirurashmika/lankatransit-backend:latest
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Docker image
+        if: github.event_name == 'push'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Backend
+          push: true
+          tags: |
+            ghcr.io/yasirurashmika/lankatransit-backend:latest
+            ghcr.io/yasirurashmika/lankatransit-backend:${{ github.sha }}
