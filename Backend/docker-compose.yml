@@ -1,7 +1,7 @@
-services:
 
+services:
   backend:
-    build: .
+    image: ghcr.io/yasirurashmika/lankatransit-backend:latest
     container_name: lankatransit-backend
     ports:
       - "3000:3000"
@@ -9,6 +9,7 @@ services:
       - .env
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   mongodb:
     image: mongo:7
@@ -17,6 +18,7 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+    restart: unless-stopped
 
 volumes:
   mongodb_data:
