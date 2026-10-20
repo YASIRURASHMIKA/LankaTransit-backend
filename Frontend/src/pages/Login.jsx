@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Login.css";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ function Login() {
 
         try {
             const response = await fetch(
-                "http://localhost:3000/api/auth/login",
+                `${API_URL}/api/auth/login`,
                 {
                     method: "POST",
 
@@ -73,7 +74,7 @@ function Login() {
 
         try {
             const response = await fetch(
-                "http://localhost:3000/api/auth/profile",
+                `${API_URL}/api/auth/profile`,
                 {
                     method: "GET",
 
