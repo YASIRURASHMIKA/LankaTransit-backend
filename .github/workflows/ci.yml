@@ -38,13 +38,6 @@ jobs:
         working-directory: Backend
         run: npm test
 
-      - name: Build Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./Backend
-          push: false
-          tags: ghcr.io/yasirurashmika/lankatransit-backend:latest
-
       - name: Login to GitHub Container Registry
         if: github.event_name == 'push'
         uses: docker/login-action@v3
