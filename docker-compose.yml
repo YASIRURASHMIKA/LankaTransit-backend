@@ -1,0 +1,30 @@
+services:
+  frontend:
+    image: ghcr.io/yasirurashmika/lankatransit-frontend:latest
+    container_name: lankatransit-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/yasirurashmika/lankatransit-backend:latest
+    container_name: lankatransit-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - Backend/.env
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    container_name: lankatransit-mongodb
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
